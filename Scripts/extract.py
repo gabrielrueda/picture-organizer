@@ -9,6 +9,12 @@ files = list()
 def fileNames(path):
     return os.listdir(path)
 
+# def folderNames(path):
+#     for item in os.listdir(path):
+#         if(os.path.isdir(path + "/" + item)):
+#             directories.append(item)
+#     return directories
+
 def currentYear():
     today = date.today()
     return int(today.strftime("%Y"))

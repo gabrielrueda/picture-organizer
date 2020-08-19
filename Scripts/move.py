@@ -21,7 +21,6 @@ def createFolders(nameData, path):
 
 def relocate(path):
     for (root,dirs,files) in os.walk(path, topdown=True): 
-        print(root)
         if(root != path):
             for f in files:
                 while True:
@@ -33,6 +32,15 @@ def relocate(path):
                         ext = os.path.splitext(f)[1]
                         f = str(random.randint(1,10000000000000)) + ext
                         os.rename(root + "/" + before, root + "/" + f)
+
+def relocateToPicturesFolders(path):
+    os.mkdir(path + "/Pictures")
+    for folder in extract.fileNames(path):
+        try:
+            shutil.move(path + "/" + folder, path + "/Pictures/" + folder)
+        except shutil.Error: 
+            pass
+
 
 def deleteDirectories(path):
     everything = os.listdir(path)

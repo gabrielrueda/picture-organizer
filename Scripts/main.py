@@ -1,6 +1,8 @@
 import os
+import shutil
 import extract
 import move
+from pathlib import Path
 
 
 # Path to folder
@@ -18,11 +20,20 @@ def rename(imagename, path, date, extraNum):
             eNum += 1
     return eNum
 
+def backup(path):
+    move.relocateToPicturesFolders(path)
+    # os.mkdir(path + "/Backup")
+    shutil.copytree(path + "/Pictures", path + "/Backup")
+
 def mainFunction():
     print("This program is designed to organize your pictures in the date they were taken.")
     path = input("Write the path to the folder you wish to organize:")
+    backup(path)
+    path = path + "/Pictures"
+    print("Moving files and deleting old subdirectories...")
     move.relocate(path)
     move.deleteDirectories(path)
+    print("Renaming pictures...")
     files = extract.fileNames(path)
     for i in files:
         extraNum = 1
@@ -34,8 +45,11 @@ def mainFunction():
             extraNum = rename(imagename, path, date, extraNum)
             date.append(extraNum)
             nameData.append(date)
-
+    print("Creating new folders...")
     move.createFolders(nameData, path)
+    print("Moving pictures to their corresponding folders....")
     move.moveFiles(nameData, path)
+    deleteBackup = input("Would you like to delete your backup?")
+    print("Complete.")
 
 mainFunction()
