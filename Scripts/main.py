@@ -25,11 +25,22 @@ def backup(path):
     # os.mkdir(path + "/Backup")
     shutil.copytree(path + "/Pictures", path + "/Backup")
 
+def deleteBackup(path):
+    while(True):
+        deleteBackup = input("Would you like to delete your backup (y/n)?")
+        if(deleteBackup == "y"):
+            shutil.rmtree(path + "/Backup")
+            break
+        elif(deleteBackup == "n"):
+            break
+        else:
+            print("Invalid Response. Please answer 'y' or 'n'")
+
 def mainFunction():
     print("This program is designed to organize your pictures in the date they were taken.")
-    path = input("Write the path to the folder you wish to organize:")
-    backup(path)
-    path = path + "/Pictures"
+    oPath = input("Write the path to the folder you wish to organize:")
+    backup(oPath)
+    path = oPath + "/Pictures"
     print("Moving files and deleting old subdirectories...")
     move.relocate(path)
     move.deleteDirectories(path)
@@ -49,7 +60,7 @@ def mainFunction():
     move.createFolders(nameData, path)
     print("Moving pictures to their corresponding folders....")
     move.moveFiles(nameData, path)
-    deleteBackup = input("Would you like to delete your backup?")
+    deleteBackup(oPath)
     print("Complete.")
 
 mainFunction()
